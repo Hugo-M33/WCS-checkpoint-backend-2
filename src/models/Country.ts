@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import { Continent } from "./Continent.js";
 
 @ObjectType()
 @Entity()
@@ -18,4 +19,12 @@ export class Country {
   @Column()
   // @ts-ignore
   emoji: string;
+
+  @ManyToOne((type) => Continent, (continent) => continent.countries, {
+    cascade: ["insert"],
+    nullable: true,
+  })
+  @Field((returns) => Continent, { nullable: true })
+  // @ts-ignore
+  continent?: Continent;
 }

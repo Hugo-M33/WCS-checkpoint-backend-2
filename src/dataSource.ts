@@ -1,10 +1,11 @@
 import { DataSource } from "typeorm";
 import { Country } from "./models/Country.js";
+import { Continent } from "./models/Continent.js";
 
 const AppDataSource = new DataSource({
   type: "sqlite",
   database: "./db.sql",
-  entities: [Country],
+  entities: [Country, Continent],
   synchronize: true,
 });
 
