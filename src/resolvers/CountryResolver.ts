@@ -1,8 +1,9 @@
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Args, Mutation, Query, Resolver } from "type-graphql";
 import { Country } from "../models/Country.js";
 import dataSource from "../dataSource.js";
 import { Continent } from "../models/Continent.js";
 import { GraphQLError } from "graphql/error/index.js";
+import { AddCountryArgs } from "../args/AddCountryArgs.js";
 
 @Resolver()
 export class CountryResolver {
@@ -31,10 +32,7 @@ export class CountryResolver {
 
   @Mutation((returns) => Country)
   async addCountry(
-    @Arg("code") code: string,
-    @Arg("name") name: string,
-    @Arg("emoji") emoji: string,
-    @Arg("codeContinent", { nullable: true }) codeContinent?: string
+    @Args() { code, emoji, codeContinent, name }: AddCountryArgs
   ) {
     let continent;
     const country = dataSource.manager.create(Country, { code, name, emoji });
