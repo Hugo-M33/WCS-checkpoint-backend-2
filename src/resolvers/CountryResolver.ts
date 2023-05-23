@@ -13,10 +13,20 @@ export class CountryResolver {
 
   @Query((returns) => Country)
   async country(@Arg("code") code: string) {
-    return dataSource.manager.findOne(Country, {
+    const country = await dataSource.manager.findOne(Country, {
       where: { code },
       relations: { continent: true },
     });
+
+    if (!country) {
+      throw new GraphQLError(`Country with code ${code} does not exist.`, {
+        extensions: {
+          code: "COUNTRY_NOT_FOUND",
+        },
+      });
+    }
+
+    return country;
   }
 
   @Mutation((returns) => Country)
