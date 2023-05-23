@@ -65,6 +65,6 @@ export class CountryResolver {
         },
       });
     }
-    return continent.countries;
+    return continent.countries.map((c) => ({ ...c, continent }));
   }
 }
